@@ -1,0 +1,16 @@
+artifact_uri: file:///c:/Users/flaco/OneDrive/Documentos/Doctorado/Mineria%20de%20datos/Proyecto_final/mlruns/0/eeee6b010a324620b7a92642154ca039/artifacts
+deleted_time: 1681791329748
+end_time: 1681779958208
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: deleted
+run_id: eeee6b010a324620b7a92642154ca039
+run_name: MixtureOfGaussians
+run_uuid: eeee6b010a324620b7a92642154ca039
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1681779956577
+status: 4
+tags: []
+user_id: flaco
