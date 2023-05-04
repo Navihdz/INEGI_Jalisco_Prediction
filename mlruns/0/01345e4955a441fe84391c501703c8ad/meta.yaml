@@ -1,0 +1,16 @@
+artifact_uri: file:///c:/Users/flaco/OneDrive/Documentos/Doctorado/Mineria%20de%20datos/Proyecto_final/mlruns/0/01345e4955a441fe84391c501703c8ad/artifacts
+deleted_time: 1682852145630
+end_time: 1682842903646
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: deleted
+run_id: 01345e4955a441fe84391c501703c8ad
+run_name: grid_search_Ridge
+run_uuid: 01345e4955a441fe84391c501703c8ad
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682842903006
+status: 3
+tags: []
+user_id: flaco

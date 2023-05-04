@@ -1,0 +1,15 @@
+artifact_uri: file:///c:/Users/flaco/OneDrive/Documentos/Doctorado/Mineria%20de%20datos/Proyecto_final/mlruns/550945776378662584/a16ea51033e948e19d88d1e93c90fe5d/artifacts
+end_time: 1682930692966
+entry_point_name: ''
+experiment_id: '550945776378662584'
+lifecycle_stage: active
+run_id: a16ea51033e948e19d88d1e93c90fe5d
+run_name: RidgeRegresion
+run_uuid: a16ea51033e948e19d88d1e93c90fe5d
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682930692611
+status: 3
+tags: []
+user_id: flaco

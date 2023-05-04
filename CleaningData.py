@@ -71,7 +71,7 @@ def clean_nans(df_categoria):
     plt.title('Número de NaNs por columna')
     plt.xlabel('Columnas')
     plt.ylabel('Número de NaNs')
-    plt.savefig('nans_por_columna.png')
+    plt.savefig('generated_images\CleaningData_nans_por_columna.png')
 
     #si removieramos rows with NaN directamente, perderíamos muchos datos
     #df_sin_nans=df_categoria.dropna()

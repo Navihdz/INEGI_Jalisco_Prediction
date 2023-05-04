@@ -1,0 +1,15 @@
+artifact_uri: file:///c:/Users/flaco/OneDrive/Documentos/Doctorado/Mineria%20de%20datos/Proyecto_final/mlruns/865667558679599056/a863251796ef46d296a634ed3fc752e8/artifacts
+end_time: 1682932673044
+entry_point_name: ''
+experiment_id: '865667558679599056'
+lifecycle_stage: active
+run_id: a863251796ef46d296a634ed3fc752e8
+run_name: LogisticRegression
+run_uuid: a863251796ef46d296a634ed3fc752e8
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682932653504
+status: 3
+tags: []
+user_id: flaco

@@ -1,0 +1,15 @@
+artifact_uri: file:///c:/Users/flaco/OneDrive/Documentos/Doctorado/Mineria%20de%20datos/Proyecto_final/mlruns/537055756106696880/344d18ab6c5945f9b711655c2a7831b5/artifacts
+end_time: 1682922748865
+entry_point_name: ''
+experiment_id: '537055756106696880'
+lifecycle_stage: active
+run_id: 344d18ab6c5945f9b711655c2a7831b5
+run_name: AdaBoost
+run_uuid: 344d18ab6c5945f9b711655c2a7831b5
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682922607714
+status: 3
+tags: []
+user_id: flaco

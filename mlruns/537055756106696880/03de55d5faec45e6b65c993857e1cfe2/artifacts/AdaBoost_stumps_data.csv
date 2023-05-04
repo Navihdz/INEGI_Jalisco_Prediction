@@ -1,0 +1,4 @@
+Stump,Amount of say,Caracteristica,Valor,Prediction div 1 menor que valor,Prediction div 2 mayor que valor
+0,0.8128000648228979,1,-0.0679262834497291,0,1
+1,0.2266261315832136,0,0.0702365523913019,0,1
+2,0.3411571657069972,2,0.090859521480533,1,1

@@ -1,6 +1,7 @@
 artifact_location: file:///c:/Users/flaco/OneDrive/Documentos/Doctorado/Mineria%20de%20datos/Proyecto_final/mlruns/0
 creation_time: 1681708244660
 experiment_id: '0'
-last_update_time: 1681708244660
+last_update_time: 1682855385639
 lifecycle_stage: active
-name: Default
+name: AllModels
+tags: {}

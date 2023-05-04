@@ -1,0 +1,16 @@
+artifact_uri: file:///c:/Users/flaco/OneDrive/Documentos/Doctorado/Mineria%20de%20datos/Proyecto_final/mlruns/0/31ad6af3bf5e419bbc3278e80b3c75ba/artifacts
+deleted_time: 1682852145814
+end_time: 1682766184707
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: deleted
+run_id: 31ad6af3bf5e419bbc3278e80b3c75ba
+run_name: MLP
+run_uuid: 31ad6af3bf5e419bbc3278e80b3c75ba
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682766176410
+status: 3
+tags: []
+user_id: flaco

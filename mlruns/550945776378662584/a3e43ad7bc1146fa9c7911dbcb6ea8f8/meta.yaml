@@ -1,0 +1,15 @@
+artifact_uri: file:///c:/Users/flaco/OneDrive/Documentos/Doctorado/Mineria%20de%20datos/Proyecto_final/mlruns/550945776378662584/a3e43ad7bc1146fa9c7911dbcb6ea8f8/artifacts
+end_time: 1682929344367
+entry_point_name: ''
+experiment_id: '550945776378662584'
+lifecycle_stage: active
+run_id: a3e43ad7bc1146fa9c7911dbcb6ea8f8
+run_name: descenso_gradiente
+run_uuid: a3e43ad7bc1146fa9c7911dbcb6ea8f8
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682929343081
+status: 3
+tags: []
+user_id: flaco

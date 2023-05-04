@@ -126,7 +126,7 @@ def feature_selection(X_class_1,X_class_2,first_split,DesireFeatures):
         winner_group_class_2=groups_class_2[index_max_norm]
         winner_name_class_1=column_names_class_1[index_max_norm]
         winner_name_class_2=column_names_class_2[index_max_norm]
-        print('el grupo ganador es',winner_name_class_1)
+        #print('el grupo ganador es',winner_name_class_1)
         
         number_features_in_group=len(groups_class_1[index_max_norm][0,:])
         

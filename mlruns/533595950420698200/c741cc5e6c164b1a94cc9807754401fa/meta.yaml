@@ -1,0 +1,15 @@
+artifact_uri: file:///c:/Users/flaco/OneDrive/Documentos/Doctorado/Mineria%20de%20datos/Proyecto_final/mlruns/533595950420698200/c741cc5e6c164b1a94cc9807754401fa/artifacts
+end_time: 1682938384821
+entry_point_name: ''
+experiment_id: '533595950420698200'
+lifecycle_stage: active
+run_id: c741cc5e6c164b1a94cc9807754401fa
+run_name: DecisionTree
+run_uuid: c741cc5e6c164b1a94cc9807754401fa
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682938349000
+status: 3
+tags: []
+user_id: flaco

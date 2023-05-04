@@ -6,6 +6,7 @@ from jax import random
 import os
 import matplotlib.pyplot as plt
 import mlflow
+import numpy as np
 # Switch off the cache 
 os.environ['XLA_PYTHON_CLIENT_PREALLOCATE'] = 'false'
 os.environ['XLA_PYTHON_CLIENT_ALLOCATOR'] = 'platform'
@@ -43,7 +44,7 @@ class Linear_Model():
         returns:
             w: Weight array at the GPU or CPU
         """
-        
+        print(lamda)
         XX=jax.numpy.transpose(X)@X
         
         Identity=jax.numpy.identity(jax.numpy.shape(XX)[0])
@@ -266,7 +267,8 @@ class Linear_Model():
         for i in range(n_steps):
             theta,error = self.update(theta, X, y, lr)
             #print('este es el paso',i, 'error:', self.LSE(theta, X, y))
-            if i%100==0:
+            if i%2000==0:
+                #crea un print vacio para que se actualice el print
                 print('step: {}, error: {:.3f}'.format(i, self.LSE(theta, X, y)))
 
             
@@ -287,8 +289,8 @@ class Linear_Model():
             recall: recall
             accuracy: accuracy
         '''
-        #creamos X aumentado con y
-        X_aug = jnp.hstack([X, y])
+        #creamos X aumentado 
+        X_aug=jnp.hstack([X, jnp.ones((X.shape[0], 1))])
 
         #model = Linear_Model(k_clases=k_clases)
         w_rigdge = self.generate_ridge_estimator(X_aug, y, lamda)  #calcula w  usando Ridge regression, si usamos lamda=0 recuperamos canonico
@@ -300,7 +302,7 @@ class Linear_Model():
         return w_rigdge, y_hat_ridge, precision,recall, accuracy
     
 
-def descenso_gradiente(X,y,steps,lr): 
+def descenso_gradiente(X,y,X_val,y_val,steps,lr): 
     '''
     args:
         X: Data  with shape (n_samples, n_features)
@@ -314,11 +316,23 @@ def descenso_gradiente(X,y,steps,lr):
         accuracy: accuracy
     '''  
     #------------------------------------MLFLOW------------------------------------
-    with mlflow.start_run(run_name="descenso_gradiente") as run:
+    experiment_name = "LinearModel"
+      # Verificar si el experimento ya existe
+    experiment = mlflow.get_experiment_by_name(experiment_name)
+
+    if experiment is None:
+        # Si no existe, crear el experimento
+        experiment_id = mlflow.create_experiment(experiment_name)
+    else:
+        # Si ya existe, obtener el experimento
+        experiment_id = experiment.experiment_id
+    with mlflow.start_run(experiment_id=experiment_id,run_name="descenso_gradiente") as run:
         mlflow.log_param("steps", steps)
         mlflow.log_param("lr", lr)
-        mlflow.log_param("n_features", len(X[1]))   #numero de features
+        mlflow.log_param("NumberOfFeatures", len(X[1]))   #numero de features
     #------------------------------------------------------------------------------
+       #cambiamos los 0 por -1 para que el modelo lineal pueda entrenar en y
+        y[y==0]=-1
 
         y=jnp.array(y)
         X=jnp.array(X)
@@ -336,19 +350,44 @@ def descenso_gradiente(X,y,steps,lr):
         #accuracy=model.accuracy(y, y_hat)
         accuracy=model.accuracy_jax(y, y_hat)
 
-
+        print('----------------------Metricas con datos de entrenamiento----------------------')
+        print('precision:', precision)
+        print('recall:', recall)
+        print('accuracy:', accuracy)
         #------------------------------------MLFLOW------------------------------------
         mlflow.log_metric("precision", precision)
         mlflow.log_metric("recall", recall)
         mlflow.log_metric("accuracy", accuracy)
         #------------------------------------------------------------------------------
+        
+        #metrics con datos de validacion
+        y_val[jnp.where(y_val==0)]=-1
+        y_val=jnp.array(y_val)
+        X_val=jnp.array(X_val)
+        y_val=jnp.reshape(y_val, (len(y_val),1))
+        y_hat_val = model.estimate_grsl(X_val, theta)
+        precision_val=model.precision_jax(y_val, y_hat_val)
+        recall_val=model.recall_jax(y_val, y_hat_val)
+        accuracy_val=model.accuracy_jax(y_val, y_hat_val)
+
+        print('----------------------Metricas con datos de validacion----------------------')
+        print('precision_val:', precision_val)
+        print('recall_val:', recall_val)
+        print('accuracy_val:', accuracy_val)
+
+        #------------------------------------MLFLOW------------------------------------
+        mlflow.log_metric("precision_val", precision_val)
+        mlflow.log_metric("recall_val", recall_val)
+        mlflow.log_metric("accuracy_val", accuracy_val)
+        #------------------------------------------------------------------------------
+        
 
         return theta, y_hat, precision, recall, accuracy
 
 
 
 
-def RidgeRegresion(X, y, lamda):
+def RidgeRegresion(X, y,X_val,y_val, lamda):
     '''
     args:
         X: Data  with shape (n_samples, n_features)
@@ -357,10 +396,21 @@ def RidgeRegresion(X, y, lamda):
     return:
     '''
     #------------------------------------MLFLOW------------------------------------
-    with mlflow.start_run(run_name="grid_search_Ridge") as run:
+    experiment_name = "LinearModel"
+      # Verificar si el experimento ya existe
+    experiment = mlflow.get_experiment_by_name(experiment_name)
+
+    if experiment is None:
+        # Si no existe, crear el experimento
+        experiment_id = mlflow.create_experiment(experiment_name)
+    else:
+        # Si ya existe, obtener el experimento
+        experiment_id = experiment.experiment_id
+
+    with mlflow.start_run(experiment_id=experiment_id,run_name="RidgeRegresion") as run:
         mlflow.log_param("lamda_grid", lamda)
         #features
-        mlflow.log_param("n_features", len(X[1]))
+        mlflow.log_param("NumberOfFeatures", len(X[1]))
     #------------------------------------------------------------------------------
     #revisa cuantas clases hay en label y
         y=jnp.array(y)
@@ -371,17 +421,84 @@ def RidgeRegresion(X, y, lamda):
         model = Linear_Model(k_clases)       
         w_rigdge, y_hat_ridge, precision,recall, acuracy = model.ridge_regression(X,y,lamda)
 
+        print('----------------------Metricas con datos de entrenamiento----------------------')
+        print('precision:', precision)
+        print('recall:', recall)
+        print('accuracy:', acuracy)
+        
         #------------------------------------MLFLOW------------------------------------
         mlflow.log_metric("precision", precision)
         mlflow.log_metric("recall", recall)
         mlflow.log_metric("accuracy", acuracy)
         #------------------------------------------------------------------------------
+        
+        #metrics con datos de validacion
+        prediction_val, precision_val, recall_val, accuracy_val=prediction_trained_ridge(X_val, w_rigdge, y_val)
+        print('----------------------Metricas con datos de validacion----------------------')
+        print('precision_val:', precision_val)
+        print('recall_val:', recall_val)
+        print('accuracy_val:', accuracy_val)
+        #------------------------------------MLFLOW------------------------------------
+        mlflow.log_metric("precision_validation", precision_val)
+        mlflow.log_metric("recall_validation", recall_val)
+        mlflow.log_metric("accuracy_validation", accuracy_val)
+
+        
 
         return w_rigdge, y_hat_ridge,precision, recall, acuracy
 
+def prediction_trained_gradient(X, theta,y=None):
+    """
+    Estimation for the Gradient Descent version
+    args:
+        X: Data array with shape (n_samples, n_features)
+        theta: Parameter w for weights and b for bias  with shape (n_features+1, 1)
+    return:
+        Estimation of data X under linear model
+    """
+    
+    w = theta[:-1]
+    b = theta[-1]
+    prediction= X@w+b
+    if y is not None:
+        #calculamos metricas
+        k_clases=len(X[1])
+        modelo=Linear_Model(k_clases)
+        precision=modelo.precision_jax(y, prediction)
+        recall=modelo.recall_jax(y, prediction)
+        accuracy=modelo.accuracy_jax(y, prediction)
+        return prediction, precision, recall, accuracy
+    else:
+        return prediction
+    
+def prediction_trained_ridge(X, w_ridge,y=None):
+    """
+    Estimation for the Ridge Regression version
+    args:
+        X: Data array with shape (n_samples, n_features)
+        w_ridge: Parameter w for weights and b for bias  with shape (n_features+1, 1)
+    return:
+        Estimation of data X under linear model
+    """
+    
+    #creamos X aumentado 
+    X_aug=jnp.hstack([X, jnp.ones((X.shape[0], 1))])
+    prediction= X_aug@w_ridge
+    if y is not None:
+        #calculamos metricas
+        k_clases=len(X[1])
+        modelo=Linear_Model(k_clases)
+        precision=modelo.precision_jax(y, prediction)
+        recall=modelo.recall_jax(y, prediction)
+        accuracy=modelo.accuracy_jax(y, prediction)
+        return prediction, precision, recall, accuracy
+    else:
+        return prediction
 
 
 if __name__ == '__main__':
 
     theta, y_hat, precision, recall, accuracy= descenso_gradiente(X,y,steps,lr)
     w_rigdge, y_hat_ridge,precision, recall, acuracy= RidgeRegresion(X, y, lamda)
+    prediction_trained_gradient(X, theta)
+    prediction_trained_ridge(X, w_rigdge)
